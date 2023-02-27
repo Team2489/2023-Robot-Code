@@ -4,13 +4,19 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
+
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.DriveArcade;
+import frc.robot.commands.GrabberOne;
+import frc.robot.subsystems.BoxGrabber;
+// import frc.robot.commands.GrabberIntake;
+// import frc.robot.commands.GrabberOne;
+// import frc.robot.subsystems.BoxGrabber;
+import frc.robot.subsystems.Drivetrain;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -20,16 +26,20 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  BoxGrabber boxGrabber = new BoxGrabber();
+  Drivetrain driveTrain = new Drivetrain();
+
+  XboxController xboxController = new XboxController(Constants.XBOX_CONTROLLER_PORT);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    // driveTrain.setDefaultCommand(new DriveArcade(driveTrain, xboxController::getRightX, xboxController::getLeftY));
+    driveTrain.setDefaultCommand(new DriveArcade(driveTrain, xboxController::getRightX, xboxController::getLeftY));
   }
 
   /**
@@ -43,12 +53,12 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+      new JoystickButton(xboxController, Button.kX.value).whileTrue(new GrabberOne(boxGrabber, 0.75));
+      new JoystickButton(xboxController, Button.kY.value).whileTrue(new GrabberOne(boxGrabber, 0.75));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+   
   }
 
   /**
@@ -56,8 +66,5 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
-  }
+  
 }

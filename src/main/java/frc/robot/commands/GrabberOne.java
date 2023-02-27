@@ -4,23 +4,19 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.BoxGrabber;
 
-/** An example command that uses an example subsystem. */
-public class ExampleCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ExampleSubsystem m_subsystem;
-
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public ExampleCommand(ExampleSubsystem subsystem) {
-    m_subsystem = subsystem;
+public class GrabberOne extends CommandBase {
+  /** Creates a new GrabberOne. */
+  BoxGrabber boxGrabber;
+  double power;
+  public GrabberOne(BoxGrabber boxGrabber, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    this.boxGrabber = boxGrabber;
+    this.power=power;
+    addRequirements(boxGrabber);
+
   }
 
   // Called when the command is initially scheduled.
@@ -29,11 +25,15 @@ public class ExampleCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    boxGrabber.intakeRun(power);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    boxGrabber.stop();
+  }
 
   // Returns true when the command should end.
   @Override
