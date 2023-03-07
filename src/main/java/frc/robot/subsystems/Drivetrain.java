@@ -31,18 +31,18 @@ public class Drivetrain extends SubsystemBase {
     leftFrontSpark = new CANSparkMax(Constants.LEFT_FRONT_SPARK, MotorType.kBrushless);
     leftBackSpark = new CANSparkMax(Constants.LEFT_BACK_SPARK, MotorType.kBrushless);
 
-    rightBackSpark.follow(rightFrontSpark);
-    leftBackSpark.follow(leftFrontSpark);
+    //rightBackSpark.follow(rightFrontSpark);
+    //leftBackSpark.follow(leftFrontSpark);
 
     rightFrontSpark.enableVoltageCompensation(12);
     rightBackSpark.enableVoltageCompensation(12);
     leftFrontSpark.enableVoltageCompensation(12);
     leftBackSpark.enableVoltageCompensation(12);
 
-    rightFrontSpark.setIdleMode(IdleMode.kBrake);
-    rightBackSpark.setIdleMode(IdleMode.kBrake);
-    leftFrontSpark.setIdleMode(IdleMode.kBrake);
-    leftBackSpark.setIdleMode(IdleMode.kBrake);
+    rightFrontSpark.setIdleMode(IdleMode.kCoast);
+    rightBackSpark.setIdleMode(IdleMode.kCoast);
+    leftFrontSpark.setIdleMode(IdleMode.kCoast);
+    leftBackSpark.setIdleMode(IdleMode.kCoast);
 
 
     rightMotors = new MotorControllerGroup(rightFrontSpark, rightBackSpark);
@@ -57,6 +57,12 @@ public class Drivetrain extends SubsystemBase {
   }
   public void curvatureDrive(double speed, double rotation){
     dDrive.curvatureDrive(speed,rotation, false);
+  }
+  public void tankDrive(double right, double left){
+    rightFrontSpark.set(right);
+    rightBackSpark.set(right);
+    leftFrontSpark.set(-left);
+    leftBackSpark.set(-left);
   }
   
 
