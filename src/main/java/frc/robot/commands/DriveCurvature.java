@@ -30,7 +30,7 @@ public class DriveCurvature extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.curvatureDrive(speed.getAsDouble(), rotation.getAsDouble());
+    driveTrain.curvatureDrive(speed.getAsDouble()*0.75, rotation.getAsDouble()*0.75);
   }
 
   // Called once the command ends or is interrupted.

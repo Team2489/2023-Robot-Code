@@ -10,33 +10,31 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class DriveArcade extends CommandBase {
-  /** Creates a new DriveArcade. */
-    Drivetrain driveTrain;
-    DoubleSupplier speed;
-    DoubleSupplier rotation;
-    SlewRateLimiter filter;
-    SlewRateLimiter filter1;
-  public DriveArcade(Drivetrain driveTrain, DoubleSupplier speed, DoubleSupplier rotation) {
+public class DriveTank extends CommandBase {
+  /** Creates a new DriveTank. */
+  Drivetrain driveTrain;
+  DoubleSupplier right;
+  DoubleSupplier left;
+  SlewRateLimiter filter;
+  SlewRateLimiter filter1;
+  public DriveTank(Drivetrain driveTrain, DoubleSupplier right, DoubleSupplier left) {
+    // Use addRequirements() here to declare subsystem dependencies.
     this.driveTrain = driveTrain;
-    this.speed = speed;
-    this.rotation = rotation;
-    filter = new SlewRateLimiter(0.9); //0.9 best results
-    filter1 = new SlewRateLimiter(0.2); 
+    this.right = right;
+    this.left = left;
+    filter = new SlewRateLimiter(0.9);
+    filter1 = new SlewRateLimiter(0.9);
     addRequirements(driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    
-    
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.arcadeDrive(speed.getAsDouble()*0.75, filter.calculate(rotation.getAsDouble())*0.75);
+    driveTrain.tankDrive(filter.calculate(right.getAsDouble())*0.5, filter1.calculate(left.getAsDouble())*0.5);
   }
 
   // Called once the command ends or is interrupted.

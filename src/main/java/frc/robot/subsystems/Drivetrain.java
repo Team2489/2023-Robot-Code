@@ -50,18 +50,18 @@ public class Drivetrain extends SubsystemBase {
       rightBackSpark.follow(rightFrontSpark);
       leftBackSpark.follow(leftFrontSpark);
 
-      rightFrontSpark.enableVoltageCompensation(12);
-      rightBackSpark.enableVoltageCompensation(12);
-      leftFrontSpark.enableVoltageCompensation(12);
-      leftBackSpark.enableVoltageCompensation(12);
+    //rightBackSpark.follow(rightFrontSpark);
+    //leftBackSpark.follow(leftFrontSpark);
 
       rightFrontSpark.setIdleMode(IdleMode.kBrake);
       rightBackSpark.setIdleMode(IdleMode.kBrake);
       leftFrontSpark.setIdleMode(IdleMode.kBrake);
       leftBackSpark.setIdleMode(IdleMode.kBrake);
 
-      rightMotors = new MotorControllerGroup(rightFrontSpark, rightBackSpark);
-      leftMotors = new MotorControllerGroup(leftFrontSpark, leftBackSpark);
+    rightFrontSpark.setIdleMode(IdleMode.kCoast);
+    rightBackSpark.setIdleMode(IdleMode.kCoast);
+    leftFrontSpark.setIdleMode(IdleMode.kCoast);
+    leftBackSpark.setIdleMode(IdleMode.kCoast);
 
     } else {
         // PWM channels 0 and 1 respectively
@@ -90,6 +90,12 @@ public class Drivetrain extends SubsystemBase {
   }
   public void curvatureDrive(double speed, double rotation){
     dDrive.curvatureDrive(speed,rotation, false);
+  }
+  public void tankDrive(double right, double left){
+    rightFrontSpark.set(right);
+    rightBackSpark.set(right);
+    leftFrontSpark.set(-left);
+    leftBackSpark.set(-left);
   }
   
 
