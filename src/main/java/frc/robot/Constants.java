@@ -25,4 +25,5 @@ public static final int LEFT_BACK_SPARK =4;
 public static final int RIGHT_INTAKE = 0;
 public static final int LEFT_INTAKE = 0;
 public static final int XBOX_CONTROLLER_PORT = 0;
+public static final int LINE_BREAKER_PORT = 1;
 }

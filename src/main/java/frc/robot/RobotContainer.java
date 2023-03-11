@@ -5,6 +5,7 @@
 package frc.robot;
 
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -33,6 +34,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   BoxGrabber boxGrabber = new BoxGrabber();
   Drivetrain driveTrain = new Drivetrain();
+  DigitalInput digitalInput = new DigitalInput(Constants.LINE_BREAKER_PORT); // add port number in constants file
   
 
   XboxController xboxController = new XboxController(Constants.XBOX_CONTROLLER_PORT);
@@ -65,8 +67,8 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-      new JoystickButton(xboxController, Button.kX.value).whileTrue(new GrabberOne(boxGrabber, 0.75));
-      new JoystickButton(xboxController, Button.kY.value).whileTrue(new GrabberOne(boxGrabber, 0.75));
+      new JoystickButton(xboxController, Button.kX.value).whileTrue(new GrabberOne(boxGrabber, 0.75, digitalInput));
+      new JoystickButton(xboxController, Button.kY.value).whileTrue(new GrabberOne(boxGrabber, 0.75, digitalInput));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
