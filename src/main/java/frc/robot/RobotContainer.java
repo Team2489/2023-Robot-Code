@@ -7,10 +7,13 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveArcade;
+import frc.robot.commands.DriveArcadeCustomized;
 import frc.robot.commands.DriveCurvature;
 import frc.robot.commands.DriveTank;
 import frc.robot.commands.GrabberOne;
@@ -30,6 +33,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   BoxGrabber boxGrabber = new BoxGrabber();
   Drivetrain driveTrain = new Drivetrain();
+  
 
   XboxController xboxController = new XboxController(Constants.XBOX_CONTROLLER_PORT);
 
@@ -41,9 +45,13 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     // driveTrain.setDefaultCommand(new DriveArcade(driveTrain, xboxController::getRightX, xboxController::getLeftY));
-    driveTrain.setDefaultCommand(new DriveArcade(driveTrain, xboxController::getRightX, xboxController::getLeftY));
+    //driveTrain.setDefaultCommand(new DriveTank(driveTrain, xboxController::getRightY, xboxController::getLeftY));
     //driveTrain.setDefaultCommand(new DriveCurvature(driveTrain, xboxController::getRightX, xboxController::getLeftY));
     //driveTrain.setDefaultCommand(new DriveTank(driveTrain, xboxController::getRightY, xboxController::getLeftY));
+    driveTrain.setDefaultCommand(new DriveArcadeCustomized(driveTrain, xboxController::getRightX, xboxController::getLeftY));
+    
+    driveTrain.putNumbers();
+    
   }
 
   /**
