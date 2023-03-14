@@ -106,10 +106,10 @@ public class Arm extends SubsystemBase {
         rod.setGoal(0);
     }
 
-    public void take(){
+    public void intake(){
         // move frame and rod to position for pickup,
-        // frame.setGoal(X);
-        // rod.setGoal(X);
+        //  frame.setGoal(X);
+        //  rod.setGoal(X);
         // take cubicBall with claw
     }
 
@@ -136,10 +136,3 @@ public class Arm extends SubsystemBase {
 
 }
 
-  
-
-//   @Override
-//   public void periodic() {
-//     // This method will be called once per scheduler run
-//   }
-// }

@@ -19,10 +19,7 @@ import frc.robot.commands.DriveArcadeCustomized;
 import frc.robot.commands.DriveCurvature;
 import frc.robot.commands.DriveTank;
 import frc.robot.commands.GrabberOne;
-import frc.robot.commands.ArmCalibrate;
-import frc.robot.commands.ArmTake;
-import frc.robot.commands.ArmThrowUp;
-import frc.robot.commands.ArmThrowMid;
+import frc.robot.commands.ArmCommand;
 import frc.robot.subsystems.BoxGrabber;
 import frc.robot.subsystems.Arm;
 // import frc.robot.commands.GrabberIntake;
@@ -43,21 +40,15 @@ public class RobotContainer {
   Drivetrain driveTrain = new Drivetrain();
   DigitalInput digitalInput = new DigitalInput(Constants.LINE_BREAKER_PORT); // add port number in constants file
   
-
   XboxController xboxController = new XboxController(Constants.XBOX_CONTROLLER_PORT);
-
   POVButton[] povButtons;
-  //POVButton m_povDown = new POVButton(xboxController,0);
-  //POVButton m_povLeft = new POVButton(xboxController,90);
-  //POVButton m_povUp = new POVButton(xboxController,180);
-  //POVButton m_povRight = new POVButton(xboxController,270);
   // Replace with CommandPS4Controller or CommandJoystick if needed
   
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     for (int i=0; i<4; ++i) {
-      povButtons[i] = new POVButton(xboxController, i*90);
+      povButtons[i] = new POVButton(xboxController, i * 90);
     }
 
     // Configure the trigger bindings
@@ -87,10 +78,15 @@ public class RobotContainer {
       new JoystickButton(xboxController, Button.kX.value).whileTrue(new GrabberOne(boxGrabber, 0.75, digitalInput));
       new JoystickButton(xboxController, Button.kY.value).whileTrue(new GrabberOne(boxGrabber, 0.75, digitalInput));
 
-      new JoystickButton(xboxController, Button.kA.value).whileTrue(new ArmCalibrate(arm));
-      povButtons[0].onTrue(new ArmTake(arm));
-      povButtons[1].onTrue(new ArmThrowUp(arm));
-      povButtons[2].onTrue(new ArmThrowMid(arm));
+      // Arm controls
+      //TODO set appropriate button # for each command - 0,1,2,3 - may be inconvenient
+      //OR even map the actions to a different buttons like A,B,...
+      new JoystickButton(xboxController, Button.kA.value).whileTrue(new ArmCommand(arm,Constants.ArmCommands.CALIBRATE));
+      povButtons[0].onTrue(new ArmCommand(arm, Constants.ArmCommands.INTAKE));
+      povButtons[1].onTrue(new ArmCommand(arm, Constants.ArmCommands.THROW_UP));
+      povButtons[2].onTrue(new ArmCommand(arm, Constants.ArmCommands.THROW_MID));
+      povButtons[3].onTrue(new ArmCommand(arm, Constants.ArmCommands.REST));
+
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
    

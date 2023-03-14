@@ -7,12 +7,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
+import frc.robot.Constants;
 
-public class ArmThrowMid extends CommandBase {
+public class ArmCommand extends CommandBase {
+
+
     Arm arm;
+    Constants.ArmCommands command;
 
-    public ArmThrowMid(Arm arm) {
+    public ArmCommand(Arm arm, Constants.ArmCommands comm) {
         this.arm = arm;
+        this.command = comm;
+
+        addRequirements(arm);
     }
 
 
@@ -23,7 +30,22 @@ public class ArmThrowMid extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      arm.throwUp();
+      switch (command) {
+          case CALIBRATE:
+              arm.calibrate();
+              break;
+          case INTAKE:
+              arm.intake();
+              break;
+          case THROW_UP:
+              arm.throwUp();
+              break;
+          case THROW_MID:
+              arm.throwMid();
+              break;
+          default:
+              arm.rest();
+      }
   }
 
   // Called once the command ends or is interrupted.
