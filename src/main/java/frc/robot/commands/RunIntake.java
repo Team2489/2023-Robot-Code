@@ -9,17 +9,16 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.BoxGrabber;
 
-public class GrabberOne extends CommandBase {
+public class RunIntake extends CommandBase {
   /** Creates a new GrabberOne. */
   BoxGrabber boxGrabber;
   DigitalInput  digitalInput;
   double power;
   XboxController xboxController;
-  public GrabberOne(BoxGrabber boxGrabber, double power, DigitalInput digitalInput, XboxController xboxController) {
+  public RunIntake(BoxGrabber boxGrabber, double power, DigitalInput digitalInput) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.boxGrabber = boxGrabber;
     this.power=power;
-    this.xboxController = xboxController;
     this.digitalInput = digitalInput;
     
     addRequirements(boxGrabber);
@@ -35,9 +34,6 @@ public class GrabberOne extends CommandBase {
   public void execute() {
     if(digitalInput.get()){
       boxGrabber.intakeRun(power*0.75);
-    }
-    else if(xboxController.getRightBumper()){
-      boxGrabber.intakeRun(0.75);
     }
     else{
       boxGrabber.stop();

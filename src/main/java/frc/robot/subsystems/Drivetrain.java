@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 
+import javax.swing.plaf.TreeUI;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -48,6 +50,9 @@ public class Drivetrain extends SubsystemBase {
     leftFrontSpark = new CANSparkMax(Constants.LEFT_FRONT_SPARK, MotorType.kBrushless);
     leftBackSpark = new CANSparkMax(Constants.LEFT_BACK_SPARK, MotorType.kBrushless);
 
+    rightFrontSpark.setInverted(true);
+    rightBackSpark.setInverted(true);
+     
      rightFrontEncoder = rightFrontSpark.getEncoder();
      rightBackEncoder = rightBackSpark.getEncoder();
      leftFrontEncoder = leftFrontSpark.getEncoder();
@@ -107,6 +112,9 @@ public class Drivetrain extends SubsystemBase {
   }
   public void updateOdometry(){
     odometry.update(ahrs.getRotation2d(), rightFrontEncoder.getPosition(), leftFrontEncoder.getPosition());
+  }
+  public void stopMotors(){
+    dDrive.arcadeDrive(0, 0);
   }
   public void putNumbers(){
   SmartDashboard.putNumber("Right Front Position", rightFrontEncoder.getPosition());

@@ -8,15 +8,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.DriveArcade;
+import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.DriveArcadeCustomized;
-import frc.robot.commands.DriveCurvature;
-import frc.robot.commands.DriveTank;
 import frc.robot.commands.GrabberOne;
 import frc.robot.subsystems.BoxGrabber;
 // import frc.robot.commands.GrabberIntake;
@@ -40,7 +38,7 @@ public class RobotContainer {
   XboxController xboxController = new XboxController(Constants.XBOX_CONTROLLER_PORT);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  
+ AutonomousCommand autoCommand = new AutonomousCommand(driveTrain, -0.5, -0.75, 4);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -67,8 +65,8 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-      new JoystickButton(xboxController, Button.kX.value).whileTrue(new GrabberOne(boxGrabber, 0.75, digitalInput));
-      new JoystickButton(xboxController, Button.kY.value).whileTrue(new GrabberOne(boxGrabber, 0.75, digitalInput));
+      new JoystickButton(xboxController, Button.kRightBumper.value).whileTrue(new GrabberOne(boxGrabber, 0.75, digitalInput, xboxController));
+      new JoystickButton(xboxController, Button.kLeftBumper.value).whileTrue(new GrabberOne(boxGrabber, -0.75, digitalInput, xboxController));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
@@ -80,5 +78,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
+  public Command getAutonomousCommand(){
+    return autoCommand;
+  }
   
 }
