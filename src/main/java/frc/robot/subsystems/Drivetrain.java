@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 
-import javax.swing.plaf.TreeUI;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
@@ -34,7 +33,7 @@ public class Drivetrain extends SubsystemBase {
    RelativeEncoder leftFrontEncoder;
    RelativeEncoder leftBackEncoder;
 
-   AHRS ahrs = new AHRS(SPI.Port.kMXP);
+   AHRS ahrs;
    
 
    MotorControllerGroup rightMotors;
@@ -50,35 +49,37 @@ public class Drivetrain extends SubsystemBase {
     leftFrontSpark = new CANSparkMax(Constants.LEFT_FRONT_SPARK, MotorType.kBrushless);
     leftBackSpark = new CANSparkMax(Constants.LEFT_BACK_SPARK, MotorType.kBrushless);
 
-    rightFrontSpark.setInverted(true);
-    rightBackSpark.setInverted(true);
-     
-     rightFrontEncoder = rightFrontSpark.getEncoder();
-     rightBackEncoder = rightBackSpark.getEncoder();
-     leftFrontEncoder = leftFrontSpark.getEncoder();
-     leftBackEncoder = leftBackSpark.getEncoder();
+    rightFrontSpark.setInverted(false);
+    rightBackSpark.setInverted(false);
+    leftFrontSpark.setInverted(true);
+    leftBackSpark.setInverted(true);
+
+    rightFrontSpark.restoreFactoryDefaults();
+    rightBackSpark.restoreFactoryDefaults();
+    leftFrontSpark.restoreFactoryDefaults();
+    leftBackSpark.restoreFactoryDefaults();
+
+
+    rightFrontEncoder = rightFrontSpark.getEncoder();
+    rightBackEncoder = rightBackSpark.getEncoder();
+    leftFrontEncoder = leftFrontSpark.getEncoder();
+    leftBackEncoder = leftBackSpark.getEncoder();
     
-    
-    //rightBackSpark.follow(rightFrontSpark);
-    //leftBackSpark.follow(leftFrontSpark);
 
     rightFrontSpark.enableVoltageCompensation(12);
     rightBackSpark.enableVoltageCompensation(12);
     leftFrontSpark.enableVoltageCompensation(12);
     leftBackSpark.enableVoltageCompensation(12);
 
-    rightFrontSpark.setIdleMode(IdleMode.kCoast);
-    rightBackSpark.setIdleMode(IdleMode.kCoast);
-    leftFrontSpark.setIdleMode(IdleMode.kCoast);
-    leftBackSpark.setIdleMode(IdleMode.kCoast);
 
 
     rightMotors = new MotorControllerGroup(rightFrontSpark, rightBackSpark);
     leftMotors = new MotorControllerGroup(leftFrontSpark, leftBackSpark);
     dDrive = new DifferentialDrive(leftMotors, rightMotors);
 
-    odometry = new DifferentialDriveOdometry(ahrs.getRotation2d(), rightFrontEncoder.getPosition(), leftFrontEncoder.getPosition());
-    pose = new Pose2d();
+    //odometry = new DifferentialDriveOdometry(ahrs.getRotation2d(), rightFrontEncoder.getPosition(), leftFrontEncoder.getPosition());
+  
+    ahrs = new AHRS(SPI.Port.kMXP);
 
    
   }
@@ -89,6 +90,12 @@ public class Drivetrain extends SubsystemBase {
   public void curvatureDrive(double speed, double rotation){
     dDrive.curvatureDrive(speed,rotation, false);
   }
+  public void setMotorSpeed(){
+    rightFrontSpark.set(-0.5);
+    rightBackSpark.set(-0.5);
+    leftFrontSpark.set(0.5);
+    leftBackSpark.set(0.5);
+  }
   public void tankDrive(double right, double left){
     rightFrontSpark.set(right);
     rightBackSpark.set(right);
@@ -96,8 +103,8 @@ public class Drivetrain extends SubsystemBase {
     leftBackSpark.set(-left);
   }
   public void arcadeDriveCustomized(double speed, double rotation){
-    rightFrontSpark.set(speed-rotation);
-    rightBackSpark.set(speed-rotation);
+    rightFrontSpark.set(rotation-speed);
+    rightBackSpark.set(rotation-speed);
     leftFrontSpark.set(speed+rotation);
     leftBackSpark.set(speed+rotation);
   }
@@ -114,8 +121,21 @@ public class Drivetrain extends SubsystemBase {
     odometry.update(ahrs.getRotation2d(), rightFrontEncoder.getPosition(), leftFrontEncoder.getPosition());
   }
   public void stopMotors(){
-    dDrive.arcadeDrive(0, 0);
+    rightFrontSpark.set(0);
+    rightBackSpark.set(0);
+    leftFrontSpark.set(0);
+    leftBackSpark.set(0);
   }
+  public void resetGyros(){
+    ahrs.reset();
+  }
+  public double getAngle(){
+    return ahrs.getAngle();
+  }
+  public double getLeftPosition(){
+    return leftFrontEncoder.getPosition();
+  }
+
   public void putNumbers(){
   SmartDashboard.putNumber("Right Front Position", rightFrontEncoder.getPosition());
   SmartDashboard.putNumber("Right Back Position", rightBackEncoder.getPosition());
@@ -127,7 +147,7 @@ public class Drivetrain extends SubsystemBase {
   SmartDashboard.putNumber("Left Back Velocity", leftBackEncoder.getVelocity());
 
   //---------------------------------Odometry--------------------------------------
-  SmartDashboard.putNumber("Odometry", odometry.getPoseMeters().getX());
+ 
 
   // --------------------------------NAV X Below-----------------------------------
 

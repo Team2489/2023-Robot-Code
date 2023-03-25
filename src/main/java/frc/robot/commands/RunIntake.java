@@ -7,19 +7,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.BoxGrabber;
+import frc.robot.subsystems.Intake;
 
 public class RunIntake extends CommandBase {
   /** Creates a new GrabberOne. */
-  BoxGrabber boxGrabber;
+  Intake boxGrabber;
   DigitalInput  digitalInput;
   double power;
   XboxController xboxController;
-  public RunIntake(BoxGrabber boxGrabber, double power, DigitalInput digitalInput) {
+  public RunIntake(Intake boxGrabber, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.boxGrabber = boxGrabber;
     this.power=power;
-    this.digitalInput = digitalInput;
+    //this.digitalInput = digitalInput;
     
     addRequirements(boxGrabber);
   }
@@ -32,12 +32,7 @@ public class RunIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(digitalInput.get()){
-      boxGrabber.intakeRun(power*0.75);
-    }
-    else{
-      boxGrabber.stop();
-    }
+    boxGrabber.intakeRun(0.75);
   }
 
   // Called once the command ends or is interrupted.

@@ -18,6 +18,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private Command autoCommand;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -57,10 +58,11 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     
-
+    autoCommand = m_robotContainer.getAutonomousCommand();
+    System.out.println("auto init");
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+    if (autoCommand != null) {
+      autoCommand.schedule();
     }
   }
 

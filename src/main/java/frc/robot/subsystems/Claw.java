@@ -4,23 +4,30 @@
 
 package frc.robot.subsystems;
 
+
+
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class BoxGrabber extends SubsystemBase {
-  /** Creates a new BoxClaw. */
-    CANSparkMax boxGrabber;
-  public BoxGrabber(){;
-    boxGrabber = new CANSparkMax(Constants.BOX_GRABBER, MotorType.kBrushless);
+public class Claw extends SubsystemBase {
+  /** Creates a new Claw. */
+  CANSparkMax clawMotor;
+  public Claw() {
+    
+    clawMotor = new CANSparkMax(Constants.CLAW_MOTOR, MotorType.kBrushless);
+    clawMotor.enableVoltageCompensation(12);
+    clawMotor.setIdleMode(IdleMode.kBrake);
   }
-  public void setBoxGrabber(double power){
-    boxGrabber.set(power);
+
+  public void rotateClawUp(double power){
+    clawMotor.set(power);
   }
-  public void boxGrabberStop(){
-    boxGrabber.set(0);
+  public void stop(){
+    clawMotor.set(0);
   }
 
   @Override

@@ -3,25 +3,19 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import edu.wpi.first.wpilibj.DigitalInput;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.BoxGrabber;
+import frc.robot.subsystems.Arm;
 
-public class GrabberIntake extends CommandBase {
-  /** Creates a new GrabberIntake. */
-  BoxGrabber gIntake;
-  boolean grab;
-  boolean release;
-  DigitalInput sensor;
-
-
-  public GrabberIntake(BoxGrabber gIntake, Boolean grab, boolean release, DigitalInput sensor) {
+public class MoveArm extends CommandBase {
+  /** Creates a new MoveArm. */
+  Arm arm;
+  double power;
+  public MoveArm(Arm arm, double power) {
+    addRequirements(arm);
+    this.arm = arm;
+    this.power = power;
     // Use addRequirements() here to declare subsystem dependencies.
-    this.gIntake = gIntake;
-    this.grab = grab;
-    this.release = release;
-    this.sensor = sensor;
-    addRequirements(gIntake);
   }
 
   // Called when the command is initially scheduled.
@@ -31,18 +25,14 @@ public class GrabberIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(sensor.get()){
-      gIntake.stop();
-    }
-    else{
-    gIntake.intake(grab, release);
-    }
-    
+    arm.moveArm(power);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    arm.stopArm();
+  }
 
   // Returns true when the command should end.
   @Override

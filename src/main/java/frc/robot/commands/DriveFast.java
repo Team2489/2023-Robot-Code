@@ -4,42 +4,34 @@
 
 package frc.robot.commands;
 
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class Drive extends CommandBase {
-  /** Creates a new Drive. */
+public class DriveFast extends CommandBase {
+  /** Creates a new DriveFast. */
   Drivetrain driveTrain;
-  double power;
-  double rotation;
-  public Drive(Drivetrain driveTrain, double power, double rotation) {
+  double speed;
+  public DriveFast(Drivetrain driveTrain, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
     this.driveTrain = driveTrain;
-    this.power = power;
-    this.rotation  = rotation;
-    
+    this.speed=speed;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    driveTrain.arcadeDrive(power, rotation);
-    System.out.println("init");
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.arcadeDrive(power, rotation);
-    System.out.println("exec");
+    driveTrain.arcadeDrive(0, speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
+    driveTrain.stopMotors();
   }
 
   // Returns true when the command should end.

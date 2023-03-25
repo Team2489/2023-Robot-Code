@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
@@ -17,11 +18,15 @@ public class DriveArcadeCustomized extends CommandBase {
   DoubleSupplier rotation;
   SlewRateLimiter filter;
   SlewRateLimiter filter1;
-  public DriveArcadeCustomized(Drivetrain driveTrain, DoubleSupplier speed, DoubleSupplier rotation) {
+  XboxController xboxController;
+  double limit;
+  public DriveArcadeCustomized(Drivetrain driveTrain, DoubleSupplier speed, DoubleSupplier rotation, double limit, XboxController xboxController) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveTrain = driveTrain;
     this.speed = speed;
     this.rotation = rotation;
+    this.limit = limit;
+    this.xboxController = xboxController;
     filter = new SlewRateLimiter(0.9);
     filter1 = new SlewRateLimiter(0.9);
     addRequirements(driveTrain);
@@ -30,16 +35,23 @@ public class DriveArcadeCustomized extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
     driveTrain.zeroEncoders();
-    driveTrain.resetPosition();
     
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.arcadeDriveCustomized(speed.getAsDouble()*0.4, rotation.getAsDouble()*0.15);
-    driveTrain.updateOdometry();
+    if(xboxController.getRightBumper()){
+      driveTrain.arcadeDriveCustomized(-speed.getAsDouble()*limit, rotation.getAsDouble()*0.3);
+    }
+    else if(xboxController.getLeftBumper()){
+      driveTrain.arcadeDriveCustomized(-speed.getAsDouble()*limit, rotation.getAsDouble()*0.3);
+    }
+    else{
+    driveTrain.arcadeDriveCustomized(-speed.getAsDouble()*0.6, rotation.getAsDouble()*0.3);
+    }
     driveTrain.putNumbers();
   }
 

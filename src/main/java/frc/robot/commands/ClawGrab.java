@@ -4,42 +4,34 @@
 
 package frc.robot.commands;
 
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.BoxGrabber;
 
-public class Drive extends CommandBase {
-  /** Creates a new Drive. */
-  Drivetrain driveTrain;
+public class ClawGrab extends CommandBase {
+  /** Creates a new ClawGrab. */
+  BoxGrabber boxGrabber;
   double power;
-  double rotation;
-  public Drive(Drivetrain driveTrain, double power, double rotation) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(driveTrain);
-    this.driveTrain = driveTrain;
+  public ClawGrab(BoxGrabber boxGrabber, double power) {
+    addRequirements(boxGrabber);
+    this.boxGrabber = boxGrabber;
     this.power = power;
-    this.rotation  = rotation;
-    
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    driveTrain.arcadeDrive(power, rotation);
-    System.out.println("init");
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.arcadeDrive(power, rotation);
-    System.out.println("exec");
+    boxGrabber.setBoxGrabber(power);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
+    boxGrabber.boxGrabberStop();
   }
 
   // Returns true when the command should end.

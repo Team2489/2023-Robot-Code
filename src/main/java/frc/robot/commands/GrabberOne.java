@@ -7,15 +7,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.BoxGrabber;
+import frc.robot.subsystems.Intake;
 
 public class GrabberOne extends CommandBase {
   /** Creates a new GrabberOne. */
-  BoxGrabber boxGrabber;
+  Intake boxGrabber;
   DigitalInput  digitalInput;
   double power;
   XboxController xboxController;
-  public GrabberOne(BoxGrabber boxGrabber, double power, DigitalInput digitalInput, XboxController xboxController) {
+  public GrabberOne(Intake boxGrabber, double power, DigitalInput digitalInput, XboxController xboxController) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.boxGrabber = boxGrabber;
     this.power=power;

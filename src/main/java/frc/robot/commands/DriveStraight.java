@@ -4,42 +4,46 @@
 
 package frc.robot.commands;
 
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class Drive extends CommandBase {
-  /** Creates a new Drive. */
+public class DriveStraight extends CommandBase {
+  /** Creates a new DriveStraight. */
   Drivetrain driveTrain;
-  double power;
-  double rotation;
-  public Drive(Drivetrain driveTrain, double power, double rotation) {
+  public DriveStraight(Drivetrain driveTrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(driveTrain);
     this.driveTrain = driveTrain;
-    this.power = power;
-    this.rotation  = rotation;
+    addRequirements(driveTrain);
+    
     
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    driveTrain.arcadeDrive(power, rotation);
-    System.out.println("init");
+    driveTrain.resetGyros();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.arcadeDrive(power, rotation);
-    System.out.println("exec");
+    driveTrain.putNumbers();
+     if(driveTrain.getAngle() > -5 && driveTrain.getAngle() <5){
+        driveTrain.arcadeDriveCustomized(0.1, 0);
+    }
+     
+     else if(driveTrain.getAngle() < -5){
+      driveTrain.arcadeDriveCustomized(0, 0.1);
+     }
+     else{
+      driveTrain.arcadeDriveCustomized(0, -0.1);
+     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
+    driveTrain.stopMotors();
   }
 
   // Returns true when the command should end.
