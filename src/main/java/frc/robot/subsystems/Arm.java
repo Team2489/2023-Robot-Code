@@ -19,6 +19,7 @@ public class Arm extends SubsystemBase {
     arm.enableVoltageCompensation(12);
     arm.setIdleMode(IdleMode.kBrake);
   }
+
   public void moveArm(double power){
     arm.set(power);
   }

@@ -56,7 +56,7 @@ public class RobotContainer {
   SendableChooser<Command> chooser = new SendableChooser<>();
   // Replace with CommandPS4Controller or CommandJoystick if needed
  //AutonomousCommand autoCommand = new AutonomousCommand(driveTrain, 0.5,  -0.5, boxGrabber, 0.75);
-  AutonomousCommand autoCommand = new AutonomousCommand(driveTrain, 0, -0.5, gBox, .6);
+  AutonomousCommand autoCommand = new AutonomousCommand(driveTrain, 0, -0.5, gBox, .5);
   AutonomousCommandTwo autoCommandTwo= new AutonomousCommandTwo(driveTrain);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -66,7 +66,7 @@ public class RobotContainer {
     //driveTrain.setDefaultCommand(new DriveTank(driveTrain, xboxController::getRightY, xboxController::getLeftY));
     //driveTrain.setDefaultCommand(new DriveCurvature(driveTrain, xboxController::getRightX, xboxController::getLeftY));
     //driveTrain.setDefaultCommand(new DriveTank(driveTrain, xboxController::getRightY, xboxController::getLeftY));
-    driveTrain.setDefaultCommand(new DriveArcadeCustomized(driveTrain, xboxController::getLeftY, xboxController::getRightX, 0.8, xboxController));
+    driveTrain.setDefaultCommand(new DriveArcadeCustomized(driveTrain, xboxController::getLeftY, xboxController::getRightX, 0.08, xboxController));
     
     driveTrain.putNumbers();
    
@@ -91,8 +91,8 @@ public class RobotContainer {
       //new JoystickButton(xboxController, Button.kLeftBumper.value).whileTrue(new DriveFast(driveTrain, 1));
       new JoystickButton(xboxController2, Button.kRightBumper.value).whileTrue(new GrabberOne(boxGrabber, 1, digitalInput, xboxController2));
       new JoystickButton(xboxController2, Button.kLeftBumper.value).whileTrue(new GrabberOne(boxGrabber, -1, digitalInput, xboxController2));
-      new JoystickButton(xboxController2, Button.kA.value).whileTrue(new MoveClaw(claw, 0.1));
-      new JoystickButton(xboxController2, Button.kB.value).whileTrue(new MoveClaw(claw, -0.1));
+      new JoystickButton(xboxController2, Button.kA.value).whileTrue(new MoveClaw(claw, 0.2));
+      new JoystickButton(xboxController2, Button.kB.value).whileTrue(new MoveClaw(claw, -0.2));
       new JoystickButton(xboxController2, Button.kX.value).whileTrue(new ClawGrab(gBox, 0.6));
       new JoystickButton(xboxController2, Button.kY.value).whileTrue(new ClawGrab(gBox, -0.1));
       //new JoystickButton(xboxController2, Button.kRightBumper.value).whileTrue(new MoveArm(arm, 0.1));

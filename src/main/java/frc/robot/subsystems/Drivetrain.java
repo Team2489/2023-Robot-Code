@@ -135,6 +135,7 @@ public class Drivetrain extends SubsystemBase {
   public double getLeftPosition(){
     return leftFrontEncoder.getPosition();
   }
+  
 
   public void putNumbers(){
   SmartDashboard.putNumber("Right Front Position", rightFrontEncoder.getPosition());
