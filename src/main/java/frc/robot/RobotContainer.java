@@ -36,11 +36,11 @@ public class RobotContainer {
   XboxController xboxController2 = new XboxController(Constants.XBOX_CONTROLLER_PORT_2);
   
   SendableChooser<Command> chooser = new SendableChooser<>();
-  AutonomousCommand autoCommand = new AutonomousCommand(driveTrain, 0, -0.5, boxGrabber, .5);
+  AutonomousCommand autoCommand = new AutonomousCommand(driveTrain, 0, -0.5, boxGrabber, .75);
   
   public RobotContainer() {
     configureBindings();
-    driveTrain.setDefaultCommand(new DriveArcadeCustomized(driveTrain, xboxController::getLeftY, xboxController::getRightX, 0.8, xboxController));
+    driveTrain.setDefaultCommand(new DriveArcadeCustomized(driveTrain, xboxController::getLeftY, xboxController::getRightX, 0.08, 0.1, 0.8, xboxController));
     chooser.setDefaultOption("Default Auto Command", autoCommand);
     SmartDashboard.putData(chooser);
   }
@@ -58,6 +58,7 @@ public class RobotContainer {
   private void configureBindings() {
       new JoystickButton(xboxController2, Button.kRightBumper.value).whileTrue(new GrabberOne(boxGrabber, 1, digitalInput, xboxController2));
       new JoystickButton(xboxController2, Button.kLeftBumper.value).whileTrue(new GrabberOne(boxGrabber, -1, digitalInput, xboxController2));
+      
     }
 
   /**

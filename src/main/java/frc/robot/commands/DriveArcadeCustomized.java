@@ -15,14 +15,19 @@ public class DriveArcadeCustomized extends CommandBase {
   DoubleSupplier speed = null;
   DoubleSupplier rotation = null;
   XboxController xboxController = null;
-  double limit = 0.0;
+  double creepRotationLimit = 0.0;
+  double creepLimit = 0.0;
+  double fastLimit =0.0;
+  
 
-  public DriveArcadeCustomized(Drivetrain driveTrain, DoubleSupplier speed, DoubleSupplier rotation, double limit, XboxController xboxController) {
+  public DriveArcadeCustomized(Drivetrain driveTrain, DoubleSupplier speed, DoubleSupplier rotation, double creepLimit, double creepRotationLimit, double fastLimit, XboxController xboxController) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveTrain = driveTrain;
     this.speed = speed;
     this.rotation = rotation;
-    this.limit = limit;
+    this.creepLimit = creepLimit;
+    this.creepRotationLimit = creepRotationLimit;
+    this.fastLimit = fastLimit;
     this.xboxController = xboxController;
     addRequirements(driveTrain);
   }
@@ -36,12 +41,16 @@ public class DriveArcadeCustomized extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speeds = speed.getAsDouble()*(limit);
+    double speeds = speed.getAsDouble();
     double rotations = rotation.getAsDouble() *0.3;
 
-    if(xboxController.getRightBumper() || xboxController.getLeftBumper() ){
-      driveTrain.arcadeDriveCustomized(-speeds*limit, rotations);
-    } else{
+    if(xboxController.getLeftBumper() ){
+      driveTrain.arcadeDriveCustomized(-speeds*creepLimit, rotations*creepRotationLimit);
+    } 
+    else if(xboxController.getRightBumper()){
+      driveTrain.arcadeDriveCustomized(-speeds*fastLimit, rotations);
+    }
+    else{
       driveTrain.arcadeDriveCustomized(-speeds*0.6, rotations);
     }
   }
