@@ -42,17 +42,19 @@ public class DriveArcadeCustomized extends CommandBase {
   @Override
   public void execute() {
     double speeds = speed.getAsDouble();
-    double rotations = rotation.getAsDouble() *0.3;
+    double rotations = rotation.getAsDouble();
+    double currentLimit = 0.6;
+    double currentRotationLimit = 0.3;
+    if(xboxController.getRightBumper()){
+      currentLimit = fastLimit;
+      currentRotationLimit = 0.3;
+    }
+    else if(xboxController.getLeftBumper()) {
+      currentLimit = creepLimit;
+      currentRotationLimit = creepRotationLimit;
+    }
 
-    if(xboxController.getLeftBumper() ){
-      driveTrain.arcadeDriveCustomized(-speeds*creepLimit, rotations*creepRotationLimit);
-    } 
-    else if(xboxController.getRightBumper()){
-      driveTrain.arcadeDriveCustomized(-speeds*fastLimit, rotations);
-    }
-    else{
-      driveTrain.arcadeDriveCustomized(-speeds*0.6, rotations);
-    }
+    driveTrain.arcadeDriveCustomized(-speeds*currentLimit, rotations*currentRotationLimit);
   }
 
   // Called once the command ends or is interrupted.
