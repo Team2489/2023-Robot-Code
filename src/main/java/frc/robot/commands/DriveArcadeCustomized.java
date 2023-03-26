@@ -5,8 +5,6 @@
 package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
@@ -16,8 +14,7 @@ public class DriveArcadeCustomized extends CommandBase {
   Drivetrain driveTrain;
   DoubleSupplier speed;
   DoubleSupplier rotation;
-  SlewRateLimiter filter;
-  SlewRateLimiter filter1;
+  
   XboxController xboxController;
   double limit;
   public DriveArcadeCustomized(Drivetrain driveTrain, DoubleSupplier speed, DoubleSupplier rotation, double limit, XboxController xboxController) {
@@ -27,37 +24,34 @@ public class DriveArcadeCustomized extends CommandBase {
     this.rotation = rotation;
     this.limit = limit;
     this.xboxController = xboxController;
-    filter = new SlewRateLimiter(0.9);
-    filter1 = new SlewRateLimiter(0.9);
     addRequirements(driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
-    driveTrain.zeroEncoders();
-    
+    driveTrain.arcadeDriveCustomized(0, 0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(xboxController.getRightBumper()){
-      driveTrain.arcadeDriveCustomized(-speed.getAsDouble()*limit, rotation.getAsDouble()*0.3);
+    double speeds = speed.getAsDouble()*(limit);
+    double rotations = rotation.getAsDouble() *0.3;
+
+    if(xboxController.getRightBumper() || xboxController.getLeftBumper() ){
+      driveTrain.arcadeDriveCustomized(-speeds*limit, rotations);
+    } else{
+      driveTrain.arcadeDriveCustomized(-speeds*0.6, rotations);
     }
-    else if(xboxController.getLeftBumper()){
-      driveTrain.arcadeDriveCustomized(-speed.getAsDouble()*limit, rotation.getAsDouble()*0.3);
-    }
-    else{
-    driveTrain.arcadeDriveCustomized(-speed.getAsDouble()*0.6, rotation.getAsDouble()*0.3);
-    }
-    driveTrain.putNumbers();
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    System.out.println("arcade drive ended");
+  }
 
   // Returns true when the command should end.
   @Override
