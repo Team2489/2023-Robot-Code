@@ -40,7 +40,7 @@ public class RobotContainer {
   
   public RobotContainer() {
     configureBindings();
-    driveTrain.setDefaultCommand(new DriveArcadeCustomized(driveTrain, xboxController::getLeftY, xboxController::getRightX, 0.08, 0.1, 0.8, xboxController));
+    driveTrain.setDefaultCommand(new DriveArcadeCustomized(driveTrain, xboxController::getLeftY, xboxController::getRightX, 0.3, 0.15, 0.8, xboxController));
     chooser.setDefaultOption("Default Auto Command", autoCommand);
     SmartDashboard.putData(chooser);
   }
