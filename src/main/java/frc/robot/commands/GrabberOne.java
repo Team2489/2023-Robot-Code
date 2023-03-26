@@ -11,23 +11,24 @@ import frc.robot.subsystems.Intake;
 
 public class GrabberOne extends CommandBase {
   /** Creates a new GrabberOne. */
-  Intake boxGrabber;
-  DigitalInput  digitalInput;
-  double power;
-  XboxController xboxController;
+  Intake boxGrabber = null;
+  DigitalInput  digitalInput = null;
+  double power = 0.0;
+  XboxController xboxController = null;
+
   public GrabberOne(Intake boxGrabber, double power, DigitalInput digitalInput, XboxController xboxController) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.boxGrabber = boxGrabber;
     this.power=power;
     this.xboxController = xboxController;
     this.digitalInput = digitalInput;
-    
     addRequirements(boxGrabber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    boxGrabber.stop();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -48,6 +49,7 @@ public class GrabberOne extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     boxGrabber.stop();
+    System.out.println("intake ended");
   }
 
   // Returns true when the command should end.

@@ -11,12 +11,12 @@ import frc.robot.subsystems.Drivetrain;
 
 public class DriveArcadeCustomized extends CommandBase {
   /** Creates a new DriveArcadeCustomized. */
-  Drivetrain driveTrain;
-  DoubleSupplier speed;
-  DoubleSupplier rotation;
-  
-  XboxController xboxController;
-  double limit;
+  Drivetrain driveTrain = null;
+  DoubleSupplier speed = null;
+  DoubleSupplier rotation = null;
+  XboxController xboxController = null;
+  double limit = 0.0;
+
   public DriveArcadeCustomized(Drivetrain driveTrain, DoubleSupplier speed, DoubleSupplier rotation, double limit, XboxController xboxController) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveTrain = driveTrain;
@@ -44,12 +44,12 @@ public class DriveArcadeCustomized extends CommandBase {
     } else{
       driveTrain.arcadeDriveCustomized(-speeds*0.6, rotations);
     }
-    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    driveTrain.arcadeDriveCustomized(0, 0);
     System.out.println("arcade drive ended");
   }
 

@@ -3,8 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -26,18 +24,19 @@ import frc.robot.subsystems.Drivetrain;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
+
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+
   Intake boxGrabber = new Intake();
   Drivetrain driveTrain = new Drivetrain();
   DigitalInput digitalInput = new DigitalInput(Constants.LINE_BREAKER_PORT); 
   
-
   XboxController xboxController = new XboxController(Constants.XBOX_CONTROLLER_PORT);
   XboxController xboxController2 = new XboxController(Constants.XBOX_CONTROLLER_PORT_2);
   
   SendableChooser<Command> chooser = new SendableChooser<>();
-    AutonomousCommand autoCommand = new AutonomousCommand(driveTrain, 0, -0.5, boxGrabber, .5);
+  AutonomousCommand autoCommand = new AutonomousCommand(driveTrain, 0, -0.5, boxGrabber, .5);
   
   public RobotContainer() {
     configureBindings();
@@ -55,11 +54,11 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
+
   private void configureBindings() {
       new JoystickButton(xboxController2, Button.kRightBumper.value).whileTrue(new GrabberOne(boxGrabber, 1, digitalInput, xboxController2));
       new JoystickButton(xboxController2, Button.kLeftBumper.value).whileTrue(new GrabberOne(boxGrabber, -1, digitalInput, xboxController2));
-   
-  }
+    }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

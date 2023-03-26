@@ -26,9 +26,6 @@ public static final int RIGHT_INTAKE = 20;
 public static final int LEFT_INTAKE = 21;
 public static final int XBOX_CONTROLLER_PORT = 0;
 public static final int LINE_BREAKER_PORT = 0;
-public static final int BOX_GRABBER = 32;
-public static final int CLAW_MOTOR = 30;
-public static final int ARM_MOTOR = 31;
 public static final int XBOX_CONTROLLER_PORT_2 = 1;
 
 }
