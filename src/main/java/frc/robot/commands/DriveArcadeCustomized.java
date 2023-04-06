@@ -45,6 +45,8 @@ public class DriveArcadeCustomized extends CommandBase {
     double rotations = rotation.getAsDouble();
     double currentLimit = 0.6;
     double currentRotationLimit = 0.3;
+    double speedInterval  = 0.08;
+    
     if(xboxController.getRightBumper()){
       currentLimit = fastLimit;
       currentRotationLimit = 0.3;
@@ -54,7 +56,16 @@ public class DriveArcadeCustomized extends CommandBase {
       currentRotationLimit = creepRotationLimit;
     }
 
+    if((speeds >= -speedInterval) && (speeds <= speedInterval)) {
+      speeds= 0.0;
+    }
+
+    if((rotations >= -speedInterval) && (rotations <= speedInterval)) {
+      rotations = 0.0;
+    }
+
     driveTrain.arcadeDriveCustomized(-speeds*currentLimit, rotations*currentRotationLimit);
+
   }
 
   // Called once the command ends or is interrupted.
