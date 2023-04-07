@@ -36,6 +36,7 @@ public class DriveArcadeCustomized extends CommandBase {
   @Override
   public void initialize() {
     driveTrain.arcadeDriveCustomized(0, 0);
+    driveTrain.coastMotors();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

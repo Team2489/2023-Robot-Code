@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -53,7 +54,10 @@ public class Drivetrain extends SubsystemBase {
     leftFrontSpark.enableVoltageCompensation(12);
     leftBackSpark.enableVoltageCompensation(12);
 
-   
+    rightFrontSpark.setIdleMode(IdleMode.kCoast);
+    rightBackSpark.setIdleMode(IdleMode.kCoast);
+    leftFrontSpark.setIdleMode(IdleMode.kCoast);
+    leftBackSpark.setIdleMode(IdleMode.kCoast);
 
     rightMotors = new MotorControllerGroup(rightFrontSpark, rightBackSpark);
     leftMotors = new MotorControllerGroup(leftFrontSpark, leftBackSpark);
@@ -79,6 +83,18 @@ public class Drivetrain extends SubsystemBase {
     rightBackSpark.set(0);
     leftFrontSpark.set(0);
     leftBackSpark.set(0);
+  }
+  public void brakeMotors(){
+    rightFrontSpark.setIdleMode(IdleMode.kBrake);
+    rightBackSpark.setIdleMode(IdleMode.kBrake);
+    leftFrontSpark.setIdleMode(IdleMode.kBrake);
+    leftBackSpark.setIdleMode(IdleMode.kBrake);
+  }
+  public void coastMotors(){
+    rightFrontSpark.setIdleMode(IdleMode.kCoast);
+    rightBackSpark.setIdleMode(IdleMode.kCoast);
+    leftFrontSpark.setIdleMode(IdleMode.kCoast);
+    leftBackSpark.setIdleMode(IdleMode.kCoast);
   }
   
   @Override

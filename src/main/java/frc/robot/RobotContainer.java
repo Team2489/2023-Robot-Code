@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutonomousCommand;
+import frc.robot.commands.BrakeMotors;
 import frc.robot.commands.CubeAdjust;
 import frc.robot.commands.CubeShoot;
 import frc.robot.commands.DriveArcadeCustomized;
@@ -64,7 +65,7 @@ public class RobotContainer {
       new JoystickButton(xboxController2, Button.kA.value).whileTrue(new CubeShoot(boxGrabber, -1));
       new JoystickButton(xboxController2, Button.kX.value).whileTrue(new CubeAdjust(boxGrabber, 0.15));
       new JoystickButton(xboxController2, Button.kY.value).whileTrue(new IntakeIn(boxGrabber, -0.35, digitalInput, xboxController));
-
+      new JoystickButton(xboxController, Button.kA.value).whileTrue(new BrakeMotors(driveTrain));
     }
 
   /**
