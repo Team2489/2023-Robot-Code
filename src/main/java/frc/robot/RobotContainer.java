@@ -67,7 +67,7 @@ public class RobotContainer {
       new JoystickButton(xboxController2, Button.kLeftBumper.value).whileTrue(new IntakeIn(boxGrabber, -0.35, digitalInput, xboxController2));
       new JoystickButton(xboxController2, Button.kA.value).whileTrue(new CubeShoot(boxGrabber, -1));
       new JoystickButton(xboxController2, Button.kX.value).whileTrue(new CubeAdjust(boxGrabber, 0.15));
-
+      new JoystickButton(xboxController2, Button.kY.value).whileTrue(new IntakeIn(boxGrabber, -0.35, digitalInput, xboxController));
      
     }
 

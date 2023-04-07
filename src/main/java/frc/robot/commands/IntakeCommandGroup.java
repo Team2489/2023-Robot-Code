@@ -4,18 +4,23 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Intake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class CubeAdjust extends SequentialCommandGroup {
-  /** Creates a new CubeAdjust. */
-  public CubeAdjust(Intake intake, double power) {
+public class IntakeCommandGroup extends SequentialCommandGroup {
+  /** Creates a new IntakeCommandGroup. */
+  public IntakeCommandGroup(Intake intake, double power, DigitalInput dInput, XboxController xboxController) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new RunLeftIntake(intake, power).withTimeout(0.15));
+      new IntakeIn(intake, power, dInput, xboxController),
+      new CubeAdjust(intake, power)
+      
+    );
   }
 }
