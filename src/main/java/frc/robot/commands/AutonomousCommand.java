@@ -17,7 +17,7 @@ public class AutonomousCommand extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     addCommands(
     new Drive(driveTrain, power, 0).withTimeout(0.75),
-    new RunIntake(boxGrabber, intakePower).withTimeout(1),
+    new RunIntake(boxGrabber, intakePower).withTimeout(2),
     new Drive(driveTrain, 0,-rotation).withTimeout(1.25));
   }
 }
