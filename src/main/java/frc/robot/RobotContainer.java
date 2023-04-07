@@ -18,10 +18,6 @@ import frc.robot.commands.CubeShoot;
 import frc.robot.commands.DriveArcadeCustomized;
 import frc.robot.commands.IntakeIn;
 import frc.robot.commands.IntakeOut;
-import frc.robot.commands.RunIntake;
-import frc.robot.commands.RunLeftIntake;
-import frc.robot.commands.RunRightIntake;
-import frc.robot.commands.Shoot;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Drivetrain;
 
