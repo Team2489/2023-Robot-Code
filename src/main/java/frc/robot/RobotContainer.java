@@ -43,7 +43,7 @@ public class RobotContainer {
   XboxController xboxController2 = new XboxController(Constants.XBOX_CONTROLLER_PORT_2);
   
   SendableChooser<Command> chooser = new SendableChooser<>();
-  AutonomousCommand autoCommand = new AutonomousCommand(driveTrain, 0, 0.5, boxGrabber, -1);
+  AutonomousCommand autoCommand = new AutonomousCommand(driveTrain, 0, 0.5, boxGrabber, -0.4);
   
   public RobotContainer() {
     configureBindings();
@@ -68,7 +68,7 @@ public class RobotContainer {
       new JoystickButton(xboxController2, Button.kA.value).whileTrue(new CubeShoot(boxGrabber, -1));
       new JoystickButton(xboxController2, Button.kX.value).whileTrue(new CubeAdjust(boxGrabber, 0.15));
       new JoystickButton(xboxController2, Button.kY.value).whileTrue(new IntakeIn(boxGrabber, -0.35, digitalInput, xboxController));
-     
+
     }
 
   /**
