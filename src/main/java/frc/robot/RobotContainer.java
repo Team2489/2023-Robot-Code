@@ -13,8 +13,15 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutonomousCommand;
+import frc.robot.commands.CubeAdjust;
+import frc.robot.commands.CubeShoot;
 import frc.robot.commands.DriveArcadeCustomized;
-import frc.robot.commands.GrabberOne;
+import frc.robot.commands.IntakeIn;
+import frc.robot.commands.IntakeOut;
+import frc.robot.commands.RunIntake;
+import frc.robot.commands.RunLeftIntake;
+import frc.robot.commands.RunRightIntake;
+import frc.robot.commands.Shoot;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Drivetrain;
 
@@ -36,7 +43,7 @@ public class RobotContainer {
   XboxController xboxController2 = new XboxController(Constants.XBOX_CONTROLLER_PORT_2);
   
   SendableChooser<Command> chooser = new SendableChooser<>();
-  AutonomousCommand autoCommand = new AutonomousCommand(driveTrain, 0, -0.5, boxGrabber, .75);
+  AutonomousCommand autoCommand = new AutonomousCommand(driveTrain, 0, 0.5, boxGrabber, -1);
   
   public RobotContainer() {
     configureBindings();
@@ -56,9 +63,12 @@ public class RobotContainer {
    */
 
   private void configureBindings() {
-      new JoystickButton(xboxController2, Button.kRightBumper.value).whileTrue(new GrabberOne(boxGrabber, 1, digitalInput, xboxController2));
-      new JoystickButton(xboxController2, Button.kLeftBumper.value).whileTrue(new GrabberOne(boxGrabber, -1, digitalInput, xboxController2));
-      
+      new JoystickButton(xboxController2, Button.kRightBumper.value).whileTrue(new IntakeOut(boxGrabber, 0.35));
+      new JoystickButton(xboxController2, Button.kLeftBumper.value).whileTrue(new IntakeIn(boxGrabber, -0.35, digitalInput, xboxController2));
+      new JoystickButton(xboxController2, Button.kA.value).whileTrue(new CubeShoot(boxGrabber, -1));
+      new JoystickButton(xboxController2, Button.kX.value).whileTrue(new CubeAdjust(boxGrabber, 0.15));
+
+     
     }
 
   /**

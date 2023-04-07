@@ -4,52 +4,36 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
-public class GrabberOne extends CommandBase {
-  /** Creates a new GrabberOne. */
-  Intake boxGrabber = null;
-  DigitalInput  digitalInput = null;
+public class RunLeftIntake extends CommandBase {
+  /** Creates a new RunRightIntake. */
+  Intake intake = null;
   double power = 0.0;
-  XboxController xboxController = null;
-
-  public GrabberOne(Intake boxGrabber, double power, DigitalInput digitalInput, XboxController xboxController) {
+  public RunLeftIntake(Intake intake, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.boxGrabber = boxGrabber;
-    this.power=power;
-    this.xboxController = xboxController;
-    this.digitalInput = digitalInput;
-    addRequirements(boxGrabber);
+    addRequirements(intake);
+    this.power = power;
+    this.intake = intake;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    boxGrabber.stop();
+    intake.stop();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(digitalInput.get()){
-      boxGrabber.intakeRun(power*0.75);
-    }
-    else if(xboxController.getRightBumper()){
-      boxGrabber.intakeRun(0.75);
-    }
-    else{
-      boxGrabber.stop();
-    }
+    intake.runLeftIntake(power);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    boxGrabber.stop();
-    System.out.println("intake ended");
+    intake.stop();
   }
 
   // Returns true when the command should end.

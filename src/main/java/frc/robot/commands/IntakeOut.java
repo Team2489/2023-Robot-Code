@@ -5,40 +5,35 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
-public class RunIntake extends CommandBase {
-  /** Creates a new GrabberOne. */
-  Intake boxGrabber = null;
-  DigitalInput  digitalInput = null;
+public class IntakeOut extends CommandBase {
+  /** Creates a new IntakeOut. */
+  Intake intake = null;
   double power = 0.0;
-  XboxController xboxController = null;
-
-  public RunIntake(Intake boxGrabber, double power) {
-    this.boxGrabber = boxGrabber;
+  
+  public IntakeOut(Intake intake, double power) {
+    // Use addRequirements() here to declare subsystem dependencies.
     this.power = power;
-    addRequirements(boxGrabber);
+    this.intake = intake;
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    boxGrabber.stop();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    boxGrabber.intakeRun(power);
+    intake.intakeRun(power);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    boxGrabber.stop();
-    System.out.println("run intake method stopped");
+    intake.stop();
   }
 
   // Returns true when the command should end.

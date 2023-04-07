@@ -15,7 +15,7 @@ public class Intake extends SubsystemBase {
     rightIntake = new CANSparkMax(Constants.RIGHT_INTAKE, MotorType.kBrushless);
     leftIntake = new CANSparkMax(Constants.LEFT_INTAKE, MotorType.kBrushless);
 
-    leftIntake.follow(rightIntake);
+    
 
     rightIntake.enableVoltageCompensation(12);
     leftIntake.enableVoltageCompensation(12);
@@ -25,6 +25,14 @@ public class Intake extends SubsystemBase {
   
   public void intakeRun(double power){
     rightIntake.set(power);
+    leftIntake.set(power);
+  }
+
+  public void runRightIntake(double power){
+    rightIntake.set(power);
+  }
+  
+  public void runLeftIntake(double power){
     leftIntake.set(power);
   }
 
