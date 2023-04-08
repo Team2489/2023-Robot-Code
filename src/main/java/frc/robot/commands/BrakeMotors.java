@@ -15,27 +15,25 @@ public class BrakeMotors extends CommandBase {
   
   public BrakeMotors(Drivetrain driveTrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-   addRequirements(driveTrain);
    this.driveTrain = driveTrain;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    driveTrain.stopMotors();
+    driveTrain.brakeMotors();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     driveTrain.brakeMotors();
-    driveTrain.stopMotors();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    driveTrain.stopMotors();
+    driveTrain.coastMotors();
   }
 
   // Returns true when the command should end.
