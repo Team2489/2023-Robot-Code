@@ -12,11 +12,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.AutonomousCommand;
+import frc.robot.commands.LowGoalAuto;
+import frc.robot.commands.LowGoalAutoStop;
 import frc.robot.commands.BrakeMotors;
 import frc.robot.commands.CubeAdjust;
 import frc.robot.commands.CubeShoot;
 import frc.robot.commands.DriveArcadeCustomized;
+import frc.robot.commands.HighGoalAuto;
+import frc.robot.commands.HighGoalAutoStop;
 import frc.robot.commands.IntakeIn;
 import frc.robot.commands.IntakeOut;
 import frc.robot.subsystems.Intake;
@@ -40,12 +43,19 @@ public class RobotContainer {
   XboxController xboxController2 = new XboxController(Constants.XBOX_CONTROLLER_PORT_2);
   
   SendableChooser<Command> chooser = new SendableChooser<>();
-  AutonomousCommand autoCommand = new AutonomousCommand(driveTrain, 0, 0.5, boxGrabber, -0.4);
-  
+
+  LowGoalAuto lowGoalAuto = new LowGoalAuto(driveTrain, 0, 0.5, boxGrabber, -0.4);
+  LowGoalAutoStop lowGoalAutoStop = new LowGoalAutoStop(driveTrain, boxGrabber, -0.4);
+  HighGoalAutoStop highGoalAutoStop= new HighGoalAutoStop(boxGrabber, -1);
+  HighGoalAuto highGoalAuto = new HighGoalAuto(driveTrain, 0, -0.5, boxGrabber, -1);
+
   public RobotContainer() {
     configureBindings();
     driveTrain.setDefaultCommand(new DriveArcadeCustomized(driveTrain, xboxController::getLeftY, xboxController::getRightX, 0.3, 0.2, 0.8, xboxController));
-    chooser.setDefaultOption("Default Auto Command", autoCommand);
+    chooser.setDefaultOption("Low Goal Auto", lowGoalAuto);
+    chooser.addOption("Low Goal Auto Stop", lowGoalAutoStop);
+    chooser.addOption("High Goal Auto Stop", highGoalAutoStop);
+    chooser.addOption("High Goal Auto", highGoalAuto);
     SmartDashboard.putData(chooser);
   }
 

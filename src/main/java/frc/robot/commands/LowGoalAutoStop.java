@@ -11,14 +11,13 @@ import frc.robot.subsystems.Intake;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutonomousCommand extends SequentialCommandGroup {
-  /** Creates a new AutonomousCommand. */
-  public AutonomousCommand(Drivetrain driveTrain, double power, double rotation, Intake boxGrabber, double intakePower) {
+public class LowGoalAutoStop extends SequentialCommandGroup {
+  /** Creates a new LowGoalAutoStop. */
+  public LowGoalAutoStop(Drivetrain driveTrain, Intake boxGrabber, double intakePower) {
     // Add your commands in the addCommands() call, e.g.
+    // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-    new RunIntake(boxGrabber, intakePower).withTimeout(2),
-    new Drive(driveTrain, 0,-rotation).withTimeout(1.75)
+      new RunIntake(boxGrabber, intakePower).withTimeout(2)
     );
   }
 }
-
