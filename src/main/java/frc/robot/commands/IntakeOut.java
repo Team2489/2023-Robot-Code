@@ -4,23 +4,20 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
 
-
-public class DriveCurvature extends CommandBase {
-  /** Creates a new DriveCurvature. */
-  Drivetrain driveTrain;
-  DoubleSupplier speed;
-  DoubleSupplier rotation;
-  public DriveCurvature(Drivetrain driveTrain, DoubleSupplier speed, DoubleSupplier rotation){
+public class IntakeOut extends CommandBase {
+  /** Creates a new IntakeOut. */
+  Intake intake = null;
+  double power = 0.0;
+  
+  public IntakeOut(Intake intake, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.driveTrain = driveTrain;
-    this.speed = speed;
-    this.rotation = rotation;
-    addRequirements(driveTrain);
+    this.power = power;
+    this.intake = intake;
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
@@ -30,12 +27,14 @@ public class DriveCurvature extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.curvatureDrive(speed.getAsDouble()*0.75, rotation.getAsDouble()*0.75);
+    intake.intakeRun(power);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    intake.stop();
+  }
 
   // Returns true when the command should end.
   @Override

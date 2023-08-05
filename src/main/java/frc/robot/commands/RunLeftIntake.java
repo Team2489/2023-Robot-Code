@@ -5,33 +5,35 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Intake;
 
-public class MoveArm extends CommandBase {
-  /** Creates a new MoveArm. */
-  Arm arm;
-  double power;
-  public MoveArm(Arm arm, double power) {
-    addRequirements(arm);
-    this.arm = arm;
-    this.power = power;
+public class RunLeftIntake extends CommandBase {
+  /** Creates a new RunRightIntake. */
+  Intake intake = null;
+  double power = 0.0;
+  public RunLeftIntake(Intake intake, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(intake);
+    this.power = power;
+    this.intake = intake;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    intake.stop();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm.moveArm(power);
+    intake.runLeftIntake(power);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    arm.stopArm();
+    intake.stop();
   }
 
   // Returns true when the command should end.

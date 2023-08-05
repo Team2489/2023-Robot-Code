@@ -5,59 +5,75 @@
 package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
 public class DriveArcadeCustomized extends CommandBase {
   /** Creates a new DriveArcadeCustomized. */
-  Drivetrain driveTrain;
-  DoubleSupplier speed;
-  DoubleSupplier rotation;
-  SlewRateLimiter filter;
-  SlewRateLimiter filter1;
-  XboxController xboxController;
-  double limit;
-  public DriveArcadeCustomized(Drivetrain driveTrain, DoubleSupplier speed, DoubleSupplier rotation, double limit, XboxController xboxController) {
+  Drivetrain driveTrain = null;
+  DoubleSupplier speed = null;
+  DoubleSupplier rotation = null;
+  XboxController xboxController = null;
+  double creepRotationLimit = 0.0;
+  double creepLimit = 0.0;
+  double fastLimit =0.0;
+  
+
+  public DriveArcadeCustomized(Drivetrain driveTrain, DoubleSupplier speed, DoubleSupplier rotation, double creepLimit, double creepRotationLimit, double fastLimit, XboxController xboxController) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveTrain = driveTrain;
     this.speed = speed;
     this.rotation = rotation;
-    this.limit = limit;
+    this.creepLimit = creepLimit;
+    this.creepRotationLimit = creepRotationLimit;
+    this.fastLimit = fastLimit;
     this.xboxController = xboxController;
-    filter = new SlewRateLimiter(0.9);
-    filter1 = new SlewRateLimiter(0.9);
     addRequirements(driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
-    driveTrain.zeroEncoders();
-    
+    driveTrain.arcadeDriveCustomized(0, 0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double speeds = speed.getAsDouble();
+    double rotations = rotation.getAsDouble();
+    double currentLimit = 0.6;
+    double currentRotationLimit = 0.3;
+    double speedInterval  = 0.08;
+    
     if(xboxController.getRightBumper()){
-      driveTrain.arcadeDriveCustomized(-speed.getAsDouble()*limit, rotation.getAsDouble()*0.3);
+      currentLimit = fastLimit;
+      currentRotationLimit = 0.3;
     }
-    else if(xboxController.getLeftBumper()){
-      driveTrain.arcadeDriveCustomized(-speed.getAsDouble()*limit, rotation.getAsDouble()*0.3);
+    else if(xboxController.getLeftBumper()) {
+      currentLimit = creepLimit;
+      currentRotationLimit = creepRotationLimit;
     }
-    else{
-    driveTrain.arcadeDriveCustomized(-speed.getAsDouble()*0.6, rotation.getAsDouble()*0.3);
+
+    if((speeds >= -speedInterval) && (speeds <= speedInterval)) {
+      speeds= 0.0;
     }
-    driveTrain.putNumbers();
+
+    if((rotations >= -speedInterval) && (rotations <= speedInterval)) {
+      rotations = 0.0;
+    }
+
+    driveTrain.arcadeDriveCustomized(-speeds*currentLimit, rotations*currentRotationLimit);
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    driveTrain.arcadeDriveCustomized(0, 0);
+    System.out.println("arcade drive ended");
+  }
 
   // Returns true when the command should end.
   @Override

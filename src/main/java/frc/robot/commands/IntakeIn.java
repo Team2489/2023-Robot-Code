@@ -4,43 +4,47 @@
 
 package frc.robot.commands;
 
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
-public class GrabberOne extends CommandBase {
+public class IntakeIn extends CommandBase {
   /** Creates a new GrabberOne. */
-  Intake boxGrabber;
-  DigitalInput  digitalInput;
-  double power;
-  XboxController xboxController;
-  public GrabberOne(Intake boxGrabber, double power, DigitalInput digitalInput, XboxController xboxController) {
+  Intake boxGrabber = null;
+  DigitalInput  digitalInput = null;
+  double power = 0.0;
+  XboxController xboxController = null;
+  boolean done = false;
+
+  public IntakeIn(Intake boxGrabber, double power, DigitalInput digitalInput, XboxController xboxController) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.boxGrabber = boxGrabber;
     this.power=power;
     this.xboxController = xboxController;
     this.digitalInput = digitalInput;
-    
     addRequirements(boxGrabber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    boxGrabber.stop();
   }
-
+  // runRightIntake is the shooter motor, and runLeftIntake is the Intake
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(digitalInput.get()){
-      boxGrabber.intakeRun(power*0.75);
+    if(!digitalInput.get()){
+      done = true;
+      System.out.println(done);
     }
-    else if(xboxController.getRightBumper()){
-      boxGrabber.intakeRun(0.75);
-    }
-    else{
+    if(done) {
       boxGrabber.stop();
+    } else if (xboxController.getLeftBumper()) {
+      boxGrabber.runLeftIntake(power);
+      boxGrabber.runRightIntake(0.5);
     }
   }
 
@@ -48,6 +52,7 @@ public class GrabberOne extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     boxGrabber.stop();
+    done = false;
   }
 
   // Returns true when the command should end.
