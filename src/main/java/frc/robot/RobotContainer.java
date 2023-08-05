@@ -14,7 +14,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.CubeAdjust;
+import frc.robot.commands.CubeAdjustFull;
 import frc.robot.commands.CubeShoot;
+import frc.robot.commands.CubeShootFull;
 import frc.robot.commands.DriveArcadeCustomized;
 import frc.robot.commands.IntakeIn;
 import frc.robot.commands.IntakeOut;
@@ -36,6 +38,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   Intake boxGrabber = new Intake();
+  
   Drivetrain driveTrain = new Drivetrain();
   DigitalInput digitalInput = new DigitalInput(Constants.LINE_BREAKER_PORT); 
   
@@ -65,9 +68,10 @@ public class RobotContainer {
   private void configureBindings() {
       new JoystickButton(xboxController2, Button.kRightBumper.value).whileTrue(new IntakeOut(boxGrabber, 0.35));
       new JoystickButton(xboxController2, Button.kLeftBumper.value).whileTrue(new IntakeIn(boxGrabber, -0.35, digitalInput, xboxController2));
-      new JoystickButton(xboxController2, Button.kA.value).whileTrue(new CubeShoot(boxGrabber, -1));
+      new JoystickButton(xboxController2, Button.kB.value).whileTrue(new CubeShoot(boxGrabber, -1, -1));
+      new JoystickButton(xboxController2, Button.kA.value).whileTrue(new CubeAdjustFull(digitalInput, boxGrabber, xboxController2));
       new JoystickButton(xboxController2, Button.kX.value).whileTrue(new CubeAdjust(boxGrabber, 0.15));
-
+      // new JoystickButton(xboxController2, Button.kB.value).whileTrue(new CubeShoot(boxGrabber, -0.5, -1));
      
     }
 

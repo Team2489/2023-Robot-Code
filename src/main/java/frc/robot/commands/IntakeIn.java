@@ -32,23 +32,19 @@ public class IntakeIn extends CommandBase {
   public void initialize() {
     boxGrabber.stop();
   }
-
+  // runRightIntake is the shooter motor, and runLeftIntake is the Intake
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(xboxController.getBButton()){
+    if(!digitalInput.get()){
+      done = true;
+      System.out.println(done);
+    }
+    if(done) {
+      boxGrabber.stop();
+    } else if (xboxController.getLeftBumper()) {
       boxGrabber.runLeftIntake(power);
       boxGrabber.runRightIntake(0.5);
-    } else{
-      if(!digitalInput.get()){
-        done = true;
-      }
-      if(done) {
-        boxGrabber.stop();
-      } else {
-        boxGrabber.runLeftIntake(power);
-        boxGrabber.runRightIntake(0.5);
-      }
     }
   }
 
@@ -57,7 +53,6 @@ public class IntakeIn extends CommandBase {
   public void end(boolean interrupted) {
     boxGrabber.stop();
     done = false;
-    System.out.println("intake ended");
   }
 
   // Returns true when the command should end.

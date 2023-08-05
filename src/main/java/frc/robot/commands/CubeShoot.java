@@ -12,11 +12,16 @@ import frc.robot.subsystems.Intake;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class CubeShoot extends SequentialCommandGroup {
   /** Creates a new CubeShoot. */
-  public CubeShoot(Intake intake, double power) {
+  public CubeShoot(Intake intake, double intakePower, double shooterPower) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new RunRightIntake(intake, power).withTimeout(0.75),
-      new Shoot(intake, power));
+
+      new RunRightIntake(intake, intakePower).withTimeout(1.5),
+      new Shoot(intake, shooterPower).withTimeout(1.5));
+    
   }
 }
+
+
+
