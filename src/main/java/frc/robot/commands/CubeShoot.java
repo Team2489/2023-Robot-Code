@@ -17,7 +17,7 @@ public class CubeShoot extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
-      new RunRightIntake(intake, intakePower).withTimeout(1.5),
+      new RunRightIntake(intake, intakePower).withTimeout(0.5),
       new Shoot(intake, shooterPower).withTimeout(1.5));
     
   }
