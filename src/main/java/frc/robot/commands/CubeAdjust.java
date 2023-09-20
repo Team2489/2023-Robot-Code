@@ -16,7 +16,7 @@ public class CubeAdjust extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new RunLeftIntake(intake, power).withTimeout(0.15)
+      new RunLeftIntake(intake, power).withTimeout(0.35)
     );
   }
 }

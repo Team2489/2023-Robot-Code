@@ -14,19 +14,20 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.CubeAdjust;
-import frc.robot.commands.CubeAdjustFull;
+import frc.robot.commands.CubeAdjustHigh;
+import frc.robot.commands.CubeAdjustMid;
 import frc.robot.commands.CubeShoot;
 import frc.robot.commands.CubeShootFull;
-import frc.robot.commands.CubeShootPlusAdjust;
+import frc.robot.commands.CubeScoreMid;
 import frc.robot.commands.DriveArcadeCustomized;
 import frc.robot.commands.IntakeIn;
 import frc.robot.commands.IntakeOut;
-import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunLeftIntake;
 import frc.robot.commands.RunRightIntake;
 import frc.robot.commands.Shoot;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.commands.CubeScoreHigh;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -67,12 +68,13 @@ public class RobotContainer {
    */
 
   private void configureBindings() {
-      new JoystickButton(xboxController2, Button.kRightBumper.value).whileTrue(new IntakeOut(boxGrabber, 0.35));
-      new JoystickButton(xboxController2, Button.kLeftBumper.value).whileTrue(new IntakeIn(boxGrabber, -0.40, digitalInput, xboxController2));
+      new JoystickButton(xboxController2, Button.kRightBumper.value).whileTrue(new IntakeOut(boxGrabber, 0.40));
+      new JoystickButton(xboxController2, Button.kLeftBumper.value).whileTrue(new IntakeIn(boxGrabber, -0.25, digitalInput, xboxController2));
       new JoystickButton(xboxController2, Button.kB.value).whileTrue(new CubeShoot(boxGrabber, -1, -1));
-      new JoystickButton(xboxController2, Button.kA.value).whileTrue(new CubeAdjustFull(digitalInput, boxGrabber, xboxController2));
-      new JoystickButton(xboxController2, Button.kX.value).whileTrue(new CubeAdjust(boxGrabber, 0.15));
-      new JoystickButton(xboxController2, Button.kY.value).whileTrue(new CubeShootPlusAdjust(digitalInput, boxGrabber, xboxController2, boxGrabber, -1, -1));
+      //new JoystickButton(xboxController2, Button.kA.value).whileTrue(new CubeAdjustFullMid(digitalInput, boxGrabber, xboxController2));
+      new JoystickButton(xboxController2, Button.kA.value).whileTrue(new CubeScoreHigh(digitalInput, boxGrabber, xboxController2, boxGrabber, -1, -1));
+      new JoystickButton(xboxController2, Button.kY.value).whileTrue(new CubeScoreMid(digitalInput, boxGrabber, xboxController2, boxGrabber, -1, -1));
+      //new JoystickButton(xboxController2, Button.kA.value).whileTrue(new CubeShootPlusAdjustHigh(digitalInput, boxGrabber, xboxController2, boxGrabber, -1, -1));
       // new JoystickButton(xboxController2, Button.kB.value).whileTrue(new CubeShoot(boxGrabber, -0.5, -1));
      
     }
