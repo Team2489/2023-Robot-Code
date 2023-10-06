@@ -4,6 +4,7 @@
 
 package frc.robot;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -48,7 +49,7 @@ public class RobotContainer {
   XboxController xboxController2 = new XboxController(Constants.XBOX_CONTROLLER_PORT_2);
   
   SendableChooser<Command> chooser = new SendableChooser<>();
-  AutonomousCommand autoCommand = new AutonomousCommand(driveTrain, 0, 0.5, boxGrabber, -1);
+  AutonomousCommand autoCommand = new AutonomousCommand(driveTrain, 0, 0.5, boxGrabber, -1, digitalInput, xboxController2);
   
   public RobotContainer() {
     configureBindings();
@@ -74,8 +75,7 @@ public class RobotContainer {
       //new JoystickButton(xboxController2, Button.kA.value).whileTrue(new CubeAdjustFullMid(digitalInput, boxGrabber, xboxController2));
       new JoystickButton(xboxController2, Button.kA.value).whileTrue(new CubeScoreHigh(digitalInput, boxGrabber, xboxController2, boxGrabber, -1, -1));
       new JoystickButton(xboxController2, Button.kY.value).whileTrue(new CubeScoreMid(digitalInput, boxGrabber, xboxController2, boxGrabber, -1, -1));
-      //new JoystickButton(xboxController2, Button.kA.value).whileTrue(new CubeShootPlusAdjustHigh(digitalInput, boxGrabber, xboxController2, boxGrabber, -1, -1));
-      // new JoystickButton(xboxController2, Button.kB.value).whileTrue(new CubeShoot(boxGrabber, -0.5, -1));
+      new JoystickButton(xboxController2, Button.kX.value).whileTrue(new CubeAdjust(boxGrabber, 1));
      
     }
 
